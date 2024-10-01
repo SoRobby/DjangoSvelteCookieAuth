@@ -40,18 +40,19 @@ def validate_csrf_token(request):
 
     # Check if the CSRF token matches the cookie and log the result
     if csrf_token_header == csrf_cookie:
-        logging.debug("\tCSRF token is valid and matches the CSRF cookie.")
+        message = "CSRF token is valid and matches the CSRF cookie."
+        logging.debug(f"\t{message}")
     else:
-        logging.debug("\tCSRF token is invalid or does not match the CSRF cookie.")
+        message = "CSRF token is INVALID or DOES NOT match the CSRF cookie."
+        logging.debug(f"\t{message}")
 
     return 200, BaseResponseSchema(
         success=True,
-        message="CSRF token is valid",
-        # Extra data
-        headers=headers,  # type: ignore
-        csrf_token_header=csrf_token_header,
+        message=message,
+        headers=headers,  
         csrf_cookie=csrf_cookie,
-    )
+        http_x_csrftoken=csrf_token_header,
+    ) # type: ignore
 
 
 @accounts_router.post("/auth/csrf-token/validate-csrf-exempt", response={200: BaseResponseSchema})
@@ -72,15 +73,16 @@ def validate_csrf_token_csrf_exempt(request):
 
     # Check if the CSRF token matches the cookie and log the result
     if csrf_token_header == csrf_cookie:
-        logging.debug("\tCSRF token is valid and matches the CSRF cookie.")
+        message = "CSRF token is valid and matches the CSRF cookie."
+        logging.debug(f"\t{message}")
     else:
-        logging.debug("\tCSRF token is invalid or does not match the CSRF cookie.")
+        message = "CSRF token is INVALID or DOES NOT match the CSRF cookie."
+        logging.debug(f"\t{message}")
 
     return 200, BaseResponseSchema(
         success=True,
-        message="CSRF token is valid",
-        # Extra data
-        headers=headers,  # type: ignore
-        csrf_token_header=csrf_token_header,
+        message=message,
+        headers=headers,  
         csrf_cookie=csrf_cookie,
-    )
+        http_x_csrftoken=csrf_token_header,
+    ) # type: ignore
