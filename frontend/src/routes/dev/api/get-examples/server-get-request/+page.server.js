@@ -4,8 +4,8 @@ import { CORE_ENDPOINTS } from "$lib/server/endpoints/endpointCore";
 export async function load({ params }) {
     console.log('HELLO SERVER')
 
-	const response = await fetch(CORE_ENDPOINTS.apiHelloWorld, {
-		method: 'GET'
+	const response = await fetch(CORE_ENDPOINTS.apiHelloWorld.url, {
+		method: CORE_ENDPOINTS.apiHelloWorld..methods.GET
 	});
 
 	// Check for any errors
