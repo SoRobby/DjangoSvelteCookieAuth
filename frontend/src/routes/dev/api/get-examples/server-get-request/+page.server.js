@@ -5,7 +5,7 @@ export async function load({ params }) {
     console.log('HELLO SERVER')
 
 	const response = await fetch(CORE_ENDPOINTS.apiHelloWorld.url, {
-		method: CORE_ENDPOINTS.apiHelloWorld..methods.GET
+		method: CORE_ENDPOINTS.apiHelloWorld.methods.GET
 	});
 
 	// Check for any errors
