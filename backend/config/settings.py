@@ -231,8 +231,7 @@ CSRF_COOKIE_NAME = "csrftoken"
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "https://example-frontend-gbldq.ondigitalocean.app",
-    ]
-
+]
 
 
 # CORS settings
@@ -257,7 +256,6 @@ SESSION_COOKIE_SAMESITE = "None"
 SESSION_COOKIE_SECURE = True
 
 # SESSION_COOKIE_DOMAIN = env.str("SESSION_COOKIE_DOMAIN")
-
 
 
 # Logging configuration
