@@ -12,7 +12,6 @@
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import { cn } from '$lib/utils.js';
 	import { LoaderCircle } from 'lucide-svelte';
-	import { redirect } from '@sveltejs/kit';
 
 	import { getErrorByField } from '$lib/utils/getErrorByField';
 
@@ -37,13 +36,11 @@
 	let isCheckingEmail = $state(false);
 	let isEmailValid = $state(true);
 	let emailMessage = $state('');
-	let emailDebounceTimer = $state();
 
 	// Username validation state
 	let isCheckingUsername = $state(false);
 	let isUsernameValid = $state(true);
 	let usernameMessage = $state('');
-	let usernameDebounceTimer = $state();
 
 	// Password1 validation state
 	let isPassword1Valid = $state(true);
