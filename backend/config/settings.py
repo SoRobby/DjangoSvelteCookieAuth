@@ -236,13 +236,13 @@ CSRF_TRUSTED_ORIGINS = [
 
 # CORS settings
 # https://pypi.org/project/django-cors-headers/
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173"
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173"
+# ]
 
 CORS_ALLOW_HEADERS = [
     "X-CSRFToken",
