@@ -13,5 +13,11 @@ export const AUTH_CLIENT_ENDPOINTS = {
 		methods: {
 			POST: 'POST'
 		}
+	},
+	validateCSRFTokenCSRFExempt: {
+		url: `${API_BASE_URL}/auth/csrf-token/validate-csrf-exempt`,
+		methods: {
+			POST: 'POST'
+		}
 	}
 };

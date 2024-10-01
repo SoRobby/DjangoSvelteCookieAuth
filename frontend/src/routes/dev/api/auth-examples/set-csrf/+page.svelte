@@ -2,10 +2,13 @@
 	import { ComponentPageTitle } from '$lib/components/dev/component-page-title';
 	import { ComponentBlock } from '$lib/components/dev/component-block';
 	import { Button } from '$lib/components/ui/button';
+	import { Label } from '$lib/components/ui/label';
+	import { Input } from '$lib/components/ui/input';
 
 	import { AUTH_CLIENT_ENDPOINTS } from '$lib/client/endpoints/csrf';
 
 	let formData = $state({});
+	let customCsrfToken = '';
 
 	async function getCSRFToken() {
 		const response = await fetch(AUTH_CLIENT_ENDPOINTS.getCSRFToken.url, {
@@ -26,7 +29,11 @@
 	}
 
 	async function validateCSRFToken() {
-		const csrfToken = getCookie('csrftoken') || '';
+		let csrfToken = getCookie('csrftoken') || '';
+
+		if (customCsrfToken.length > 0) {
+			csrfToken = customCsrfToken;
+		}
 
 		console.log('CSRF token:', csrfToken);
 
@@ -42,12 +49,51 @@
 		});
 
 		if (!response.ok) {
-			const errorData = await response.json();
-			console.log('[+PAGE] Error data:', errorData);
+			// const errorData = await response.json();
+			// console.log('[+PAGE] Error data:', errorData);
 			formData = {
 				success: false,
 				status: response.status,
-				data: errorData
+				data: 'Unable to validate CSRF token'
+			};
+		}
+
+		const data = await response.json();
+		console.log('[+PAGE] Data:', data);
+		formData = {
+			success: true,
+			status: response.status,
+			data: data
+		};
+	}
+
+	async function validateCSRFTokenCSRFExempt() {
+		let csrfToken = getCookie('csrftoken') || '';
+
+		if (customCsrfToken.length > 0) {
+			csrfToken = customCsrfToken;
+		}
+
+		console.log('CSRF token:', csrfToken);
+
+		AUTH_CLIENT_ENDPOINTS.validateCSRFTokenCSRFExempt.url;
+
+		const response = await fetch(AUTH_CLIENT_ENDPOINTS.validateCSRFTokenCSRFExempt.url, {
+			method: AUTH_CLIENT_ENDPOINTS.validateCSRFTokenCSRFExempt.methods.POST,
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-CSRFToken': csrfToken
+			}
+		});
+
+		if (!response.ok) {
+			// const errorData = await response.json();
+			// console.log('[+PAGE] Error data:', errorData);
+			formData = {
+				success: false,
+				status: response.status,
+				data: 'Unable to validate CSRF token'
 			};
 		}
 
@@ -89,9 +135,20 @@
 			</div>
 
 			<div>
-				<Button variant="outline" type="button" onclick={validateCSRFToken}
-					>Validate CSRF Token</Button
-				>
+				<div class="flex gap-x-4">
+					<Button variant="outline" type="button" onclick={validateCSRFToken}
+						>Validate CSRF Token with Protected Endpoint</Button
+					>
+					<Button variant="outline" type="button" onclick={validateCSRFTokenCSRFExempt}
+						>Validate CSRF Token with Unprotected Endpoint</Button
+					>
+				</div>
+
+				<div class="mt-2 w-1/2">
+					<Label for="custom-csrf">Custom CSRF</Label>
+					<Input id="custom-csrf" type="text" bind:value={customCsrfToken} />
+				</div>
+
 				<div class="space-y-1 pt-2">
 					<p class="text-muted-foreground text-sm">
 						Perform a POST request to the backend to check if the CSRF token/cookie is valid
@@ -101,11 +158,9 @@
 		</div>
 
 		{#if formData?.success}
-			<p class="mt-4 text-sm font-medium text-green-600">
-				Success: {formData?.data.success.message}
-			</p>
+			<p class="mt-4 text-sm font-medium text-green-600">Successful</p>
 		{:else if formData?.success === false}
-			<p class="mt-4 text-sm font-medium text-red-600">Error: {formData?.data.success.message}</p>
+			<p class="mt-4 text-sm font-medium text-red-600">Error</p>
 		{/if}
 
 		<div class="bg-muted mt-4 rounded-md p-2 text-xs">

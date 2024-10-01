@@ -15,11 +15,11 @@ def get_csrf_token(request):
     # Log the request method and the request headers to check for CORS issues
     logging.debug(f"\tRequest Method: {request.method}")
     logging.debug(f"\tRequest Headers: {dict(request.headers)}")
-    
+
     # Log the CSRF cookie in the response
     csrf_cookie = request.COOKIES.get("csrftoken")
     logging.debug(f"\tCSRF Cookie: {csrf_cookie}")
-    
+
     return HttpResponse()
 
 
@@ -27,27 +27,60 @@ def get_csrf_token(request):
 def validate_csrf_token(request):
     logging.debug("[ACCOUNTS.API.CSRF] validate_csrf_token()")
 
-
     # Log request headers for CORS debug information
+    headers = dict(request.headers)
     logging.debug(f"\tRequest Headers: {dict(request.headers)}")
 
-    csrf_token = request.META.get("HTTP_X_CSRFTOKEN")
-    logging.debug(f"\tCSRF Token (Header): {csrf_token}")
+    csrf_token_header = request.META.get("HTTP_X_CSRFTOKEN")
+    logging.debug(f"\tCSRF Token (Header): {csrf_token_header}")
 
     # Log CSRF cookie to compare against the CSRF token in the request
     csrf_cookie = request.COOKIES.get("csrftoken")
     logging.debug(f"\tCSRF Cookie: {csrf_cookie}")
 
     # Check if the CSRF token matches the cookie and log the result
-    if csrf_token == csrf_cookie:
+    if csrf_token_header == csrf_cookie:
         logging.debug("\tCSRF token is valid and matches the CSRF cookie.")
     else:
         logging.debug("\tCSRF token is invalid or does not match the CSRF cookie.")
-    
-    
+
     return 200, BaseResponseSchema(
-            success=True,
-            message="CSRF token is valid"
-        )
+        success=True,
+        message="CSRF token is valid",
+        # Extra data
+        headers=headers,  # type: ignore
+        csrf_token_header=csrf_token_header,
+        csrf_cookie=csrf_cookie,
+    )
 
 
+@accounts_router.post("/auth/csrf-token/validate-csrf-exempt", response={200: BaseResponseSchema})
+@csrf_exempt
+def validate_csrf_token_csrf_exempt(request):
+    logging.debug("[ACCOUNTS.API.CSRF] validate_csrf_token_csrf_exempt()")
+
+    # Log request headers for CORS debug information
+    headers = dict(request.headers)
+    logging.debug(f"\tRequest Headers: {dict(request.headers)}")
+
+    csrf_token_header = request.META.get("HTTP_X_CSRFTOKEN")
+    logging.debug(f"\tCSRF Token (Header): {csrf_token_header}")
+
+    # Log CSRF cookie to compare against the CSRF token in the request
+    csrf_cookie = request.COOKIES.get("csrftoken")
+    logging.debug(f"\tCSRF Cookie: {csrf_cookie}")
+
+    # Check if the CSRF token matches the cookie and log the result
+    if csrf_token_header == csrf_cookie:
+        logging.debug("\tCSRF token is valid and matches the CSRF cookie.")
+    else:
+        logging.debug("\tCSRF token is invalid or does not match the CSRF cookie.")
+
+    return 200, BaseResponseSchema(
+        success=True,
+        message="CSRF token is valid",
+        # Extra data
+        headers=headers,  # type: ignore
+        csrf_token_header=csrf_token_header,
+        csrf_cookie=csrf_cookie,
+    )

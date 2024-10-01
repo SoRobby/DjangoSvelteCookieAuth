@@ -42,12 +42,12 @@
 					>API Endpoints</a
 				>
 				<a
-					href="dev/api"
+					href="dev/api/auth-examples/set-csrf"
 					class="w-min text-nowrap font-medium text-gray-700 hover:text-blue-600 hover:underline"
 					>CSRF Testing</a
 				>
 				<a
-					href="dev/api"
+					href="dev/api/post-examples/server-post-request"
 					class="w-min text-nowrap font-medium text-gray-700 hover:text-blue-600 hover:underline"
 					>POST Test</a
 				>
