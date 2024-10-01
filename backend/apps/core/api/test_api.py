@@ -1,13 +1,7 @@
 # from apps.core.schemas import ErrorSchema
 import logging
 
-from apps.core.models import Country
-from apps.core.schemas import (
-    BaseResponseSchema,
-    CountryBasicSchema,
-    Error400Schema,
-    ErrorSchema,
-)
+from apps.core.schemas import BaseResponseSchema, Error400Schema, ErrorSchema
 from ninja import Schema
 
 from .router import core_router
@@ -21,15 +15,11 @@ class Data(Schema):
 def hello_get(request):
     logging.debug("[CORE.API.HELLO_GET] Called")
 
-    countries = Country.objects.all()[0:3]
-    country_data = [CountryBasicSchema.from_orm(country) for country in countries]
-
     return 200, BaseResponseSchema(
         success=True,
         message="Request was successful",
         chicken="Chicken was crossing the road...",  # type: ignore
         turkey={"turkey": "Turkey was crossing the road..."},  # type: ignore
-        countries=country_data,  # type: ignore
     )
 
 
@@ -40,8 +30,10 @@ def hello_post(request, data: Data):
 
     if data.content == "200-success-single-country":
         logging.debug("[CORE.API.HELLO_POST] 200 success")
-        country = Country.objects.first()
-        country_data = CountryBasicSchema.from_orm(country)
+        country_data = {
+            "name": "United States",
+            "code": "US",
+        }
 
         return 200, BaseResponseSchema(
             success=True, message="Request was successful", country=country_data  # type: ignore
@@ -49,8 +41,13 @@ def hello_post(request, data: Data):
 
     elif data.content == "200-success-list-countries":
         logging.debug("[CORE.API.HELLO_POST] 200 success")
-        countries = Country.objects.all()
-        country_data = [CountryBasicSchema.from_orm(country) for country in countries]
+
+        country_data = [
+            {"name": "United States", "code": "US"},
+            {"name": "Canada", "code": "CA"},
+            {"name": "Mexico", "code": "MX"},
+        ]
+
         return 200, BaseResponseSchema(
             success=True,
             message="Post request successful",
