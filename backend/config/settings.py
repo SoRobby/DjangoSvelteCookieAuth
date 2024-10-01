@@ -107,8 +107,6 @@ if ENVIRONMENT == "DEVELOPMENT_LOCAL":
         }
     }
 elif ENVIRONMENT == "DEVELOPMENT_SERVER":
-    # if env.str("DATABASE_URL", default=None) is None:
-    #     raise Exception("DATABASE_URL environment variable is not defined.")
     if env.str("DATABASE_NAME", default=None) is None:
         raise Exception("DATABASE_NAME environment variable is not defined.")
     if env.str("DATABASE_USER", default=None) is None:
@@ -224,7 +222,7 @@ CSRF_COOKIE_SAMESITE = "None"
 
 CSRF_COOKIE_HTTPONLY = False
 
-# CSRF_COOKIE_DOMAIN = 'backend-5pqts.ondigitalocean.app'
+# CSRF_COOKIE_DOMAIN = 'xxxxxxxx.com'
 
 CSRF_COOKIE_PATH = "/"
 
@@ -232,17 +230,8 @@ CSRF_COOKIE_NAME = "csrftoken"
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
-#     "https://frontend-ezzmv.ondigitalocean.app",
-#     "http://frontend-ezzmv.ondigitalocean.app",
     ]
 
-
-# Session cookie settings
-SESSION_COOKIE_SAMESITE = "None"
-
-SESSION_COOKIE_SECURE = True
-
-# SESSION_COOKIE_DOMAIN = 'backend-5pqts.ondigitalocean.app'
 
 
 # CORS settings
@@ -253,14 +242,21 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173"
-    # 'https://frontend-ezzmv.ondigitalocean.app',
-    # 'http://frontend-ezzmv.ondigitalocean.app',
 ]
 
-CORS_ALLOW_HEADERS = (
+CORS_ALLOW_HEADERS = [
     "X-CSRFToken",
-    "content-type",
-)
+    "Content-Type",
+]
+
+
+# Session cookie settings
+SESSION_COOKIE_SAMESITE = "None"
+
+SESSION_COOKIE_SECURE = True
+
+SESSION_COOKIE_DOMAIN = env.str("SESSION_COOKIE_DOMAIN")
+
 
 
 # Logging configuration
