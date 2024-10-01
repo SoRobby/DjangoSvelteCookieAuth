@@ -3,7 +3,9 @@ import { HELLO_WORLD_ENDPOINTS } from "$lib/client/endpoints/helloWorld";
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ fetch }) {
-	console.log('API Test');
+	console.log('[LOAD] Page loaded');
+	console.log(HELLO_WORLD_ENDPOINTS.helloWorldGet.url);
+
 	const response = await fetch(HELLO_WORLD_ENDPOINTS.helloWorldGet.url, {
 		method: HELLO_WORLD_ENDPOINTS.helloWorldGet.methods.GET
 	});
