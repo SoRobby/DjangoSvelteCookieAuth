@@ -40,14 +40,16 @@ def validate_csrf_token(request):
 
     # Check if the CSRF token matches the cookie and log the result
     if csrf_token_header == csrf_cookie:
-        message = "CSRF token is valid and matches the CSRF cookie."
+        success = True
+        message = "CSRF token is VALID and MATCHES the CSRF cookie."
         logging.debug(f"\t{message}")
     else:
+        success = False
         message = "CSRF token is INVALID or DOES NOT match the CSRF cookie."
         logging.debug(f"\t{message}")
 
     return 200, BaseResponseSchema(
-        success=True,
+        success=success,
         message=message,
         headers=headers,  
         csrf_cookie=csrf_cookie,
@@ -73,14 +75,16 @@ def validate_csrf_token_csrf_exempt(request):
 
     # Check if the CSRF token matches the cookie and log the result
     if csrf_token_header == csrf_cookie:
-        message = "CSRF token is valid and matches the CSRF cookie."
+        success = True
+        message = "CSRF token is VALID and MATCHES the CSRF cookie."
         logging.debug(f"\t{message}")
     else:
+        success = False
         message = "CSRF token is INVALID or DOES NOT match the CSRF cookie."
         logging.debug(f"\t{message}")
 
     return 200, BaseResponseSchema(
-        success=True,
+        success=success,
         message=message,
         headers=headers,  
         csrf_cookie=csrf_cookie,
