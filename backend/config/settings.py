@@ -222,8 +222,8 @@ CSRF_COOKIE_SAMESITE = "None"
 
 CSRF_COOKIE_HTTPONLY = False
 
-# CSRF_COOKIE_DOMAIN = ".ondigitalocean.app"
-CSRF_COOKIE_DOMAIN = "example-backend-8lntg.ondigitalocean.app"
+CSRF_COOKIE_DOMAIN = ".ondigitalocean.app"
+# CSRF_COOKIE_DOMAIN = "example-backend-8lntg.ondigitalocean.app"
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
@@ -252,8 +252,8 @@ SESSION_COOKIE_SAMESITE = "None"
 
 SESSION_COOKIE_SECURE = True
 
-# SESSION_COOKIE_DOMAIN = ".ondigitalocean.app"
-SESSION_COOKIE_DOMAIN = "example-backend-8lntg.ondigitalocean.app"
+SESSION_COOKIE_DOMAIN = ".ondigitalocean.app"
+# SESSION_COOKIE_DOMAIN = "example-backend-8lntg.ondigitalocean.app"
 
 
 # Logging configuration
