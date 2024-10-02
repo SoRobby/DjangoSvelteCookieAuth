@@ -2,10 +2,26 @@ import logging
 
 from apps.accounts.api.router import accounts_router
 from apps.core.schemas import BaseResponseSchema
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 
+# Backup
+# @accounts_router.post("/auth/csrf-token")
+# @ensure_csrf_cookie
+# @csrf_exempt
+# def get_csrf_token(request):
+#     logging.debug("[ACCOUNTS.API.CSRF] get_csrf_token()")
+#     logging.debug(f"[ACCOUNTS.API.CSRF] Request headers: {dict(request.headers)}")
+#     logging.debug(f"[ACCOUNTS.API.CSRF] Request cookies: {request.COOKIES}")
+
+#     # Get the CSRF token
+#     csrf_token = get_token(request)
+#     logging.debug(f"[ACCOUNTS.API.CSRF] Generated CSRF token: {csrf_token}")
+
+#     response = HttpResponse()
+#     logging.debug(f"[ACCOUNTS.API.CSRF] Response headers: {dict(response.items())}")
+#     return response
 
 @accounts_router.post("/auth/csrf-token")
 @ensure_csrf_cookie
@@ -14,13 +30,16 @@ def get_csrf_token(request):
     logging.debug("[ACCOUNTS.API.CSRF] get_csrf_token()")
     logging.debug(f"[ACCOUNTS.API.CSRF] Request headers: {dict(request.headers)}")
     logging.debug(f"[ACCOUNTS.API.CSRF] Request cookies: {request.COOKIES}")
-
+    
     # Get the CSRF token
     csrf_token = get_token(request)
     logging.debug(f"[ACCOUNTS.API.CSRF] Generated CSRF token: {csrf_token}")
-
-    response = HttpResponse()
+    
+    # Create a response and add the CSRF token to headers
+    response = JsonResponse({'message': 'CSRF token set successfully'})
+    response['X-CSRFToken'] = csrf_token
     logging.debug(f"[ACCOUNTS.API.CSRF] Response headers: {dict(response.items())}")
+    
     return response
 
 
