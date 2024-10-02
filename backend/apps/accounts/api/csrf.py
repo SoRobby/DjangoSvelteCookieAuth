@@ -12,12 +12,10 @@ from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 def get_csrf_token(request):
     logging.debug("[ACCOUNTS.API.CSRF] get_csrf_token()")
     logging.debug(f"[ACCOUNTS.API.CSRF] Request headers: {dict(request.headers)}")
-
-    # Log the CSRF cookie in the response
-    csrf_cookie = request.COOKIES.get("csrftoken")
-    logging.debug(f"[ACCOUNTS.API.CSRF] CSRF cookie: {csrf_cookie}")
-
-    return HttpResponse()
+    logging.debug(f"[ACCOUNTS.API.CSRF] Request cookies: {request.COOKIES}")
+    response = HttpResponse()
+    logging.debug(f"[ACCOUNTS.API.CSRF] Response headers: {dict(response.items())}")
+    return response
 
 
 @accounts_router.post("/auth/csrf-token/validate", response={200: BaseResponseSchema})
