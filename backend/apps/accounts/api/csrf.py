@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 
 @accounts_router.post("/auth/csrf-token")
 @ensure_csrf_cookie
+@csrf_exempt
 def get_csrf_token(request):
     logging.debug("[ACCOUNTS.API.CSRF] get_csrf_token()")
     logging.debug(f"[ACCOUNTS.API.CSRF] Request headers: {dict(request.headers)}")
