@@ -3,7 +3,7 @@ import logging
 from apps.accounts.api.router import accounts_router
 from apps.core.schemas import BaseResponseSchema
 from django.http import HttpResponse, JsonResponse
-from django.middleware.csrf import get_token
+from django.middleware.csrf import _sanitize_token, get_token
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 
 # Backup
@@ -92,6 +92,11 @@ def validate_csrf_token_csrf_exempt(request):
     # Log CSRF cookie to compare against the CSRF token in the request
     csrf_cookie = request.COOKIES.get("csrftoken")
     logging.debug(f"\tCSRF Cookie: {csrf_cookie}")
+
+
+    # Sanitized
+    logging.debug(f"\tCSRF Token (Header) Sanitized: {_sanitize_token(32, csrf_token_header)}")
+    
 
     # Check if the CSRF token matches the cookie and log the result
     if csrf_token_header == csrf_cookie:
