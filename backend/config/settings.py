@@ -222,27 +222,29 @@ CSRF_COOKIE_SAMESITE = "None"
 
 CSRF_COOKIE_HTTPONLY = False
 
-# CSRF_COOKIE_DOMAIN = 'xxxxxxxx.com'
+CSRF_COOKIE_DOMAIN = ".ondigitalocean.app"
 
-CSRF_COOKIE_PATH = "/"
+# CSRF_COOKIE_PATH = "/"
 
-CSRF_COOKIE_NAME = "csrftoken"
+# CSRF_COOKIE_NAME = "csrftoken"
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
+    "https://example-frontend-gbldq.ondigitalocean.app",
     "https://example-frontend-gbldq.ondigitalocean.app",
 ]
 
 
 # CORS settings
 # https://pypi.org/project/django-cors-headers/
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173"
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://example-frontend-gbldq.ondigitalocean.app"
+]
 
 CORS_ALLOW_HEADERS = [
     "X-CSRFToken",
@@ -255,7 +257,7 @@ SESSION_COOKIE_SAMESITE = "None"
 
 SESSION_COOKIE_SECURE = True
 
-# SESSION_COOKIE_DOMAIN = env.str("SESSION_COOKIE_DOMAIN")
+SESSION_COOKIE_DOMAIN = ".ondigitalocean.app"
 
 
 # Logging configuration
