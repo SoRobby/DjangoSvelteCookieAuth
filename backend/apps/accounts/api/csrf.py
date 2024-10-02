@@ -8,17 +8,13 @@ from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 
 @accounts_router.post("/auth/csrf-token")
 @ensure_csrf_cookie
-@csrf_exempt
 def get_csrf_token(request):
     logging.debug("[ACCOUNTS.API.CSRF] get_csrf_token()")
-
-    # Log the request method and the request headers to check for CORS issues
-    logging.debug(f"\tRequest Method: {request.method}")
-    logging.debug(f"\tRequest Headers: {dict(request.headers)}")
+    logging.debug(f"[ACCOUNTS.API.CSRF] Request headers: {dict(request.headers)}")
 
     # Log the CSRF cookie in the response
     csrf_cookie = request.COOKIES.get("csrftoken")
-    logging.debug(f"\tCSRF Cookie: {csrf_cookie}")
+    logging.debug(f"[ACCOUNTS.API.CSRF] CSRF cookie: {csrf_cookie}")
 
     return HttpResponse()
 

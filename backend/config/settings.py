@@ -231,7 +231,7 @@ CSRF_COOKIE_DOMAIN = ".ondigitalocean.app"
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "https://example-frontend-gbldq.ondigitalocean.app",
-    "https://example-frontend-gbldq.ondigitalocean.app",
+    "https://example-backend-8lntg.ondigitalocean.app",
 ]
 
 
