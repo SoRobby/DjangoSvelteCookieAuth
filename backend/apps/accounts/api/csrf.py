@@ -12,16 +12,12 @@ from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 @ensure_csrf_cookie
 @csrf_exempt
 def get_csrf_token(request):
-    logging.debug("[ACCOUNTS.API.CSRF] get_csrf_token()")
-    logging.debug(f"[ACCOUNTS.API.CSRF] Request headers: {dict(request.headers)}")
-    logging.debug(f"[ACCOUNTS.API.CSRF] Request cookies: {request.COOKIES}")
-
-    # Get the CSRF token
-    csrf_token = get_token(request)
-    logging.debug(f"[ACCOUNTS.API.CSRF] Generated CSRF token: {csrf_token}")
-
+    csrf_token = get_token(request)  # Get the CSRF token
+    logging.debug(f"Generated CSRF token: {csrf_token}")
+    logging.debug(f"Request cookies: {request.COOKIES}")
+    
     response = HttpResponse()
-    logging.debug(f"[ACCOUNTS.API.CSRF] Response headers: {dict(response.items())}")
+    response['X-CSRFToken'] = csrf_token  # Add the CSRF token to the response header for debugging
     return response
 
 # OLD CODE

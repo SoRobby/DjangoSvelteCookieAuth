@@ -10,14 +10,9 @@ export const actions = {
 			method: AUTH_ENDPOINTS.getCSRFToken.methods.POST,
 		});
 
-		const csrfCookieConfig = setupCookie(csrfResponse, 'csrftoken');
+        console.log("csrfResponse:", csrfResponse);
 
-		cookies.set('csrftoken', csrfCookieConfig.value, {
-			path: '/',
-			httpOnly: false,
-			sameSite: 'lax',
-			secure: false,
-			maxAge: 60 * 60 * 24 * 30
-		});
+		const csrfCookieConfig = setupCookie(csrfResponse, 'csrftoken');
+        cookies.set('csrftoken', csrfCookieConfig.value, csrfCookieConfig.attributes);
 	}
 };

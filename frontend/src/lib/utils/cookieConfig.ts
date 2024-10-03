@@ -2,15 +2,6 @@
 // cookie from the response headers. This cookieConfig can then be used to set the cookie
 // on the client side.
 
-// EXAMPLE:
-// const csrfResponse = await fetch('http://localhost:8000/api/v1/set-csrf-decorator', {
-//     method: 'POST',
-//     credentials: 'include'
-// });
-//
-// const csrfConfig = setupCookie(csrfResponse, 'csrftoken');
-// event.cookies.set('csrftoken', csrfConfig.value, csrfConfig.attributes);
-
 export function setupCookie(response: Response, cookieName: string) {
 	const setCookieHeader = response.headers.get('set-cookie');
 
