@@ -8,11 +8,12 @@ import { PUBLIC_ROOT_URL } from '$env/static/public';
 
 class AuthApi {
     private refreshInterval: ReturnType<typeof setInterval> | undefined;
-    private axios: AxiosInstance;
+    private client: AxiosInstance;
 
     constructor() {
-        axios.defaults.baseURL = `${PUBLIC_ROOT_URL}/api`;
-        this.axios = axios;
+        this.client = axios.create({
+            baseURL: `${PUBLIC_ROOT_URL}/api`
+        });;
         this.refreshInterval = undefined;
     }
 
@@ -24,7 +25,7 @@ class AuthApi {
 
         const endpoint = `/token/pair`;
         try {
-            const res = await this.axios({
+            const res = await this.client({
                 url: endpoint,
                 method: 'POST',
                 data: {
@@ -60,7 +61,7 @@ class AuthApi {
             if (refresh_token && refresh_token?.length > 0) {
                 // console.log("Setting up refresh interval")
                 this.refreshInterval = setInterval(() => this.refreshToken(refresh_token),
-                    1000 * 60 * 3
+                    1000 * 60 * 3 // refresh every 3 min
                 )
             }
         }
@@ -72,29 +73,32 @@ class AuthApi {
 
     async refreshToken(refresh_token: string) {
 
-        const endpoint = `/token/refresh/`;
+        const endpoint = '/token/refresh';
         const data = {
             'refresh': refresh_token,
         }
         if (refresh_token !== null) {
             try {
-                const response = await axios.post(
-                    endpoint,
-                    data
+                const res = await this.client(
+                    {
+                        url: endpoint,
+                        method: 'POST',
+                        data: data
+                    }
                 )
-                if (response.status === 200) {
-                    localStorage.setItem(localStoreSchema.acessToken, response.data.access)
-                    document.cookie = cookie.serialize(localStoreSchema.acessToken, response.data.access ?? "", {
+                if (res.status === 200) {
+                    localStorage.setItem(localStoreSchema.acessToken, res.data.access)
+                    document.cookie = cookie.serialize(localStoreSchema.acessToken, res.data.access ?? "", {
                         path: "/",
-                        maxAge: response.data.access ? undefined : 0,
+                        maxAge: res.data.access ? undefined : 0,
                         sameSite: "strict"
                     });
                     return true;
                 }
             } catch (e) {
                 const err = e as AxiosError;
-                const response_status = err?.response?.status
-                if (response_status === 401 || response_status === 400) {
+                const res_status = err?.response?.status
+                if (res_status === 401 || res_status === 400) {
                     this.logout();
                     return false;
                 }
@@ -110,7 +114,7 @@ class AuthApi {
         });
         if (browser) {
             purgeLocalStorage();
-            window.location.href = '/signin';
+            window.location.href = '/login';
         }
     }
 

@@ -2,7 +2,9 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Button } from '$lib/components/ui/button';
 	import * as Avatar from '$lib/components/ui/avatar';
-	let { userData } = $props();
+	import authApi from "$lib/api/client/auth";
+	import { LogOut } from 'lucide-svelte';
+	let { data } = $props();
 </script>
 
 <header class="bg-gray-800">
@@ -24,7 +26,7 @@
 				</div>
 			</div>
 			<div class="flex items-center gap-6">
-				{#if userData?.sessionid}
+				{#if data?.user}
 					<div>
 						<DropdownMenu.Root>
 							<DropdownMenu.Trigger asChild let:builder>
@@ -42,8 +44,8 @@
 							</DropdownMenu.Trigger>
 							<DropdownMenu.Content class="w-48">
 								<div class="px-2 py-1.5">
-									<p class="text-sm font-semibold text-gray-900">{userData.username}</p>
-									<p class="text-muted-foreground text-xs">{userData.email}</p>
+									<p class="text-sm font-semibold text-gray-900">{data.user.username}</p>
+									<p class="text-muted-foreground text-xs">{data.user.email}</p>
 								</div>
 								<DropdownMenu.Separator />
 								<DropdownMenu.LinkItem href="/profile">Profile</DropdownMenu.LinkItem>
@@ -52,7 +54,7 @@
 										<DropdownMenu.Item>Logout</DropdownMenu.Item>
 									</button>
 								</form>
-								{#if userData.is_superuser}
+								{#if data.user.is_superuser}
 									<DropdownMenu.Separator />
 									<div class="text-center pl-2 bg-red-50 w-full">
 										<span class="text-xs font-medium rounded px-2 py-1 text-red-700">Type: Superuser</span>
@@ -73,6 +75,10 @@
 							class="text-muted rounded border border-gray-700 px-3 py-1.5 text-sm hover:border-gray-500"
 							>Register</a
 						>
+						<button onclick={() => authApi.logout()}
+						class="text-muted rounded border border-gray-700 px-3 py-1.5 text-sm hover:border-gray-500"
+						>Logout</button
+					>
 					</div>
 				{/if}
 			</div>
