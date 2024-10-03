@@ -8,11 +8,14 @@ export const actions = {
 
 		const csrfResponse = await fetch(AUTH_ENDPOINTS.getCSRFToken.url, {
 			method: AUTH_ENDPOINTS.getCSRFToken.methods.POST,
+			headers: {
+				'X-CSRFToken': cookies.get('csrftoken') || ''
+			}
 		});
 
-        console.log("csrfResponse:", csrfResponse);
+		console.log('csrfResponse:', csrfResponse);
 
 		const csrfCookieConfig = setupCookie(csrfResponse, 'csrftoken');
-        cookies.set('csrftoken', csrfCookieConfig.value, csrfCookieConfig.attributes);
+		cookies.set('csrftoken', csrfCookieConfig.value, csrfCookieConfig.attributes);
 	}
 };
