@@ -2,22 +2,31 @@
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Button } from '$lib/components/ui/button';
 	let { data } = $props();
+
+	import api from '$lib/api/client/example.js';
+	import { onMount } from 'svelte';
+
+	onMount(async () => {
+		const res = await api.getSomeProtectedData();
+		console.log("Protected endpoint response", res)
+
+	})
 </script>
 
 <div class="flex items-center py-6">
 	<div class="flex flex-1 items-center space-x-4">
 		<Avatar.Root class="h-12 w-12">
-			<Avatar.Image src="https://github.com/shadcn.png" alt="@{data.account.username}" />
+			<Avatar.Image src="https://github.com/shadcn.png" alt="@{data.user.username}" />
 			<Avatar.Fallback class="font-medium">
-				{data.account.username.slice(0, 2).toUpperCase()}
+				{data.user.username.slice(0, 2).toUpperCase()}
 			</Avatar.Fallback>
 		</Avatar.Root>
 		<div>
 			<h1 class="text-2xl font-semibold text-gray-800">
-				{data.account.first_name}
-				{data.account.last_name}
+				{data.user.first_name}
+				{data.user.last_name}
 			</h1>
-			<p class="text-sm font-medium text-gray-500">@{data.account.username}</p>
+			<p class="text-sm font-medium text-gray-500">@{data.user.username}</p>
 		</div>
 	</div>
 	<div>
@@ -38,7 +47,7 @@
 				<dl class="flex flex-wrap py-6">
 					<div class="flex-auto pl-6">
 						<dt class="text-sm font-semibold leading-6 text-gray-900">User</dt>
-						<dd class="mt-1 text-base font-semibold leading-6 text-gray-900">{data.account.username}</dd>
+						<dd class="mt-1 text-base font-semibold leading-6 text-gray-900">{data.user.username}</dd>
 					</div>
 
 					<div class="flex-none self-end px-6 pt-4">
@@ -66,7 +75,7 @@
 								></path>
 							</svg>
 						</dt>
-						<dd class="text-sm font-medium leading-6 text-gray-900">{data.account.first_name} {data.account.last_name}</dd>
+						<dd class="text-sm font-medium leading-6 text-gray-900">{data.user.first_name} {data.user.last_name}</dd>
 					</div>
 					<div class="mt-4 flex w-full flex-none gap-x-4 px-6">
 						<dt class="flex-none">

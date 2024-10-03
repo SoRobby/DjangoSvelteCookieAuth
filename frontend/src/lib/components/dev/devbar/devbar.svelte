@@ -1,5 +1,5 @@
 <script>
-	let { data, userData } = $props();
+	let { data } = $props();
 
 	function autoPopulateFormFields() {
 		var forms = document.forms;
@@ -318,8 +318,8 @@
 	<div class="flex justify-between">
 		<div>
 			User:
-			{#if userData.sessionid}
-				{userData.username}
+			{#if data?.user}
+				{data?.user.username}
 			{:else}
 				Unknown
 			{/if}
@@ -355,12 +355,12 @@
 			</div>
 		</div>
 	</div>
-	{#if userData}
+	{#if data?.user}
 		<div class="mt-1 space-x-2">
-			{#each Object.keys(userData) as key}
+			{#each Object.keys(data.user) as key}
 				<span
 					class="inline-flex items-center rounded-md bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800 ring-1 ring-inset ring-red-600/10"
-					>{key}={userData[key]}</span
+					>{key}={data.user[key]}</span
 				>
 			{/each}
 		</div>

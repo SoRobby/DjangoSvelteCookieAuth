@@ -1,49 +1,68 @@
 <script lang="ts">
+    const { data } = $props();
 	import AuthHeading from '../AuthHeading.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import { Button } from '$lib/components/ui/button';
-	import { enhance } from '$app/forms';
-	import type { SubmitFunction } from './$types';
+	import api from '$lib/api/client/auth';
+
 
 	let rememberMe = $state(false);
 	let password = $state('');
-
-	const { form, data } = $props();
+	let email = $state('');
 
 	let isSubmitting = $state(false);
 
-	const handleSubmit: SubmitFunction = () => {
-		isSubmitting = true;
+	async function authenticate() {
 
-		return async ({ update }) => {
-			try {
-				await update({ reset: false });
-			} finally {
-				isSubmitting = false;
+		if (password?.length === 0) {
+			//warn
+			return
+		}
+		if (email?.length === 0) {
+			//warn
+			return
+		}
 
-				// Ensure the element exists before accessing its value
-				const passwordInput = document.getElementById('password') as HTMLInputElement | null;
-				if (passwordInput) {
-					passwordInput.value = ''; // Clear the input field if it exists
-				}
+		const res = await api.login(email, password, rememberMe) ;
+		if (res) {
+			// window.location.href = '/profile';
+			window.location.href = "/profile";
+		}
 
-				password = ''; // Reset the password variable
-			}
-		};
-	};
+	}
+
+	// const handleSubmit: SubmitFunction = () => {
+	// 	isSubmitting = true;
+
+	// 	return async ({ update }) => {
+	// 		try {
+	// 			await update({ reset: false });
+	// 		} finally {
+	// 			isSubmitting = false;
+
+	// 			// Ensure the element exists before accessing its value
+	// 			const passwordInput = document.getElementById('password') as HTMLInputElement | null;
+	// 			if (passwordInput) {
+	// 				passwordInput.value = ''; // Clear the input field if it exists
+	// 			}
+
+	// 			password = ''; // Reset the password variable
+	// 		}
+	// 	};
+	// };
 </script>
 
 <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
 	<AuthHeading title="Sign in to your account" />
 	<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
 		<div class="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-			<form class="space-y-6" method="POST" use:enhance={handleSubmit}>
+			<div class="space-y-6">
 				<div class="flex w-full max-w-sm flex-col gap-1.5">
 					<Label for="email">Email address</Label>
-					<Input type="email" name="email" id="email" required />
+					<Input type="email" name="email" id="email" bind:value={email} required />
 				</div>
 
 				<div class="flex w-full max-w-sm flex-col gap-1.5">
@@ -60,7 +79,7 @@
 				</div>
 				<div>
 					{#if !isSubmitting}
-						<Button class="w-full" type="submit">Sign in</Button>
+						<Button class="w-full" on:click={authenticate}>Sign in</Button>
 					{:else}
 						<Button disabled variant="ghost" class="w-full" type="button">
 							<LoaderCircle class="mr-2 h-4 w-4 animate-spin" />
@@ -68,13 +87,13 @@
 						</Button>
 					{/if}
 				</div>
-			</form>
+			</div>
 
-			{#if !form?.success}
+			<!-- {#if !form?.success}
 				<div class="flex justify-center">
 					<p class="mt-4 text-sm font-medium text-red-600">{form?.message}</p>
 				</div>
-			{/if}
+			{/if} -->
 			
 		</div>
 

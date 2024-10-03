@@ -1,4 +1,4 @@
-import { AUTH_ENDPOINTS } from '$lib/server/endpoints/auth';
+import { AUTH_ENDPOINTS } from '$lib/api/server/endpoints/auth';
 import { setupCookie } from '$lib/utils/cookieConfig';
 
 /** @type {import('./$types').Actions} */
