@@ -10,23 +10,23 @@
 	let formData = $state({});
 	let customCsrfToken = '';
 
-	async function getCSRFToken() {
-		const response = await fetch(AUTH_CLIENT_ENDPOINTS.getCSRFToken.url, {
-			method: AUTH_CLIENT_ENDPOINTS.getCSRFToken.methods.POST,
-			credentials: 'include'
-		});
+	// async function getCSRFToken() {
+	// 	const response = await fetch(AUTH_CLIENT_ENDPOINTS.getCSRFToken.url, {
+	// 		method: AUTH_CLIENT_ENDPOINTS.getCSRFToken.methods.POST,
+	// 		credentials: 'include'
+	// 	});
 
-		if (!response.ok) {
-			console.error('Failed to fetch CSRF token');
-		}
+	// 	if (!response.ok) {
+	// 		console.error('Failed to fetch CSRF token');
+	// 	}
 
-		console.log('CSRF token set successfully');
-		formData = {
-			success: true,
-			status: response.status,
-			data: 'Successfully set CSRF token'
-		};
-	}
+	// 	console.log('CSRF token set successfully');
+	// 	formData = {
+	// 		success: true,
+	// 		status: response.status,
+	// 		data: 'Successfully set CSRF token'
+	// 	};
+	// }
 
 	async function validateCSRFToken() {
 		let csrfToken = getCookie('csrftoken') || '';
@@ -120,7 +120,10 @@
 	<ComponentBlock.Preview>
 		<div class="space-y-8">
 			<div>
-				<Button variant="outline" type="button" onclick={getCSRFToken}>Set CSRF Token</Button>
+				<form action="?/setCsrfToken" method="POST">
+					<Button variant="outline" type="submit">Set CSRF Token</Button>
+				</form>
+
 				<div class="space-y-1 pt-2">
 					<p class="text-muted-foreground text-sm">
 						Open up chrome inspector, if a csrftoken is already set, try deleting and click the
@@ -158,9 +161,9 @@
 		</div>
 
 		{#if formData?.success}
-			<p class="mt-4 text-sm font-medium text-green-600">Successful</p>
+			<p class="mt-4 text-sm font-medium text-blue-600">{formData?.data.message}</p>
 		{:else if formData?.success === false}
-			<p class="mt-4 text-sm font-medium text-red-600">Error</p>
+			<p class="mt-4 text-sm font-medium text-blue-600">{formData?.data.message}</p>
 		{/if}
 
 		<div class="bg-muted mt-4 rounded-md p-2 text-xs">

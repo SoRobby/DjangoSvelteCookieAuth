@@ -8,143 +8,26 @@ console.log('\n[HOOKS.SERVER.TS] Called');
 
 export async function handle({ event, resolve }) {
 	// Get cookies from the request
-	const cookies = event.cookies;
+	// const cookies = event.cookies;
 
-	// If CSRF token does not exist create a new one:
-	if (!cookies.get('csrftoken')) {
-		console.log('[HOOKS.SERVER.TS] No CSRF token found in cookies. Creating a new one...');
+	// // If CSRF token does not exist create a new one:
+	// if (!cookies.get('csrftoken')) {
+	// 	and
 
-		const csrfResponse = await fetch(AUTH_ENDPOINTS.getCSRFToken.url, {
-			method: AUTH_ENDPOINTS.getCSRFToken.methods.POST,
-			credentials: 'include'
-		});
+	// 	const csrfResponse = await fetch(AUTH_ENDPOINTS.getCSRFToken.url, {
+	// 		method: AUTH_ENDPOINTS.getCSRFToken.methods.POST,
+	// 		credentials: 'include'
+	// 	});
 
-		console.log(csrfResponse)
+	// 	console.log(csrfResponse)
+	// 	const csrfCookieConfig = setupCookie(csrfResponse, 'csrftoken');
+	// 	event.cookies.set('csrftoken', csrfCookieConfig.value, csrfCookieConfig.attributes);
+	// 	console.log('[HOOKS.SERVER.TS] CSRF token successfully created and set')
+	// }
+	
 
-		const csrfCookieConfig = setupCookie(csrfResponse, 'csrftoken');
-		event.cookies.set('csrftoken', csrfCookieConfig.value, csrfCookieConfig.attributes);
-
-		console.log('[HOOKS.SERVER.TS] CSRF token successfully created and set')
-	}
-
-	// Check to see if user is logged in by looking at cookies.sessionid
-	if (cookies.get('sessionid')) {
-		console.log('[HOOKS.SERVER.TS] SessionID exists, getting user info...');
-
-		const allCookies = cookies
-			.getAll()
-			.map((cookie) => `${cookie.name}=${cookie.value}`)
-			.join('; ');
-
-		AUTH_ENDPOINTS.getCurrentUser.url;
-
-		const response = await fetch(AUTH_ENDPOINTS.getCurrentUser.url, {
-			method: AUTH_ENDPOINTS.getCurrentUser.methods.GET,
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-				Cookie: allCookies
-				// 'X-CSRFToken': csrfToken,
-				// 'Cookie': `sessionid=${sessionid}`
-			}
-		});
-
-		if (response.ok) {
-			const data = await response.json();
-			console.log('[HOOKS.SERVER.TS] User info successfully retrieved:', data);
-
-			// Set cookie data if it is missing
-			if (data.account.username) {
-				console.log('[HOOKS.SERVER.TS] Setting username in cookies');
-				cookies.set('username', data.account.username, {
-					path: '/', // Ensure the cookie is accessible throughout the site
-					httpOnly: false, // Make it HTTP-only for security
-					sameSite: 'Lax', // Protect against CSRF
-					secure: true, // Use true in production when using HTTPS
-					maxAge: 60 * 60 * 24 * 7 // 1 week expiration
-				});
-			}
-
-			console.log(data);
-
-			if (data) {
-				console.log('[HOOKS.SERVER.TS] Setting user local data');
-				event.locals.user = {
-					username: data.account.username,
-					email: data.account.email,
-					first_name: data.account.first_name,
-					last_name: data.account.last_name,
-					country_slug: data.account.country_slug || null,
-					is_superuser: data.account.is_superuser,
-					sessionid: cookies.get('sessionid') || ''
-				};
-			}
-		} else {
-			// If the server fails to get the user data, set user to an empty object
-			// and remove the user-related cookies. If a user was logged in, this will
-			// log them out.
-
-			// Rationale for this is that if the server fails to get the user data, the
-			// sessionid cookie is likely invalid. This could be due to the session
-			// expiring or the sessionid being tampered with.
-			console.log('[HOOKS.SERVER.TS] Unable to get user data, setting user to empty object');
-			event.locals.user = {};
-
-			// Remove user-related cookies
-			cookies.set('sessionid', '', {
-				path: '/',
-				expires: new Date(0)
-			});
-
-			cookies.set('username', '', {
-				path: '/',
-				expires: new Date(0)
-			});
-		}
-	} else {
-		console.log('[HOOKS.SERVER.TS] No sessionid found in cookies');
-		// Remove user data from locals if sessionid does not exist
-		event.locals.user = {};
-
-		// Remove user-related cookies
-		cookies.set('username', '', {
-			path: '/',
-			expires: new Date(0)
-		});
-	}
+	event.locals.user = {};
 
 	return await resolve(event);
 }
 
-// async function csrfHandler({ event, resolve }) {
-// 	console.log('csrfHandler');
-
-// 	const csrfToken = event.cookies.get('csrftoken');
-// 	console.log('\tcsrfToken:', csrfToken);
-
-// 	if (!csrfToken) {
-// 		console.log('\tNo csrfToken found in cookies. Creating a new one...');
-
-// 		const response = await fetch('http://localhost:8000/api/v1/set-csrf', {
-// 			method: 'GET',
-// 			credentials: 'include'
-// 		});
-// 	}
-
-// 	const response = await resolve(event);
-// 	return response;
-// }
-
-// async function firstHandle({ event, resolve }) {
-// 	console.log('firstHandle');
-// 	const response = await resolve(event);
-// 	return response;
-// }
-
-// async function secondHandle({ event, resolve }) {
-// 	console.log('secondHandle');
-// 	const response = await resolve(event);
-// 	return response;
-// }
-
-// export const handle = sequence(firstHandle, secondHandle);
