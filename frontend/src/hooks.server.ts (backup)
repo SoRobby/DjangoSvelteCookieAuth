@@ -2,7 +2,7 @@ import { sequence } from '@sveltejs/kit/hooks';
 import { setupCookie } from '$lib/utils/cookieConfig';
 import { getCurrentUser } from '$lib/utils/auth/authHandler';
 import type { Handle } from '@sveltejs/kit';
-import { AUTH_ENDPOINTS } from '$lib/server/endpoints/auth';
+import { AUTH_ENDPOINTS } from '$lib/api/server/endpoints/auth';
 
 console.log('\n[HOOKS.SERVER.TS] Called');
 

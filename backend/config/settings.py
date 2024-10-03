@@ -52,6 +52,7 @@ DJANGO_APPS = [
 # Third party apps
 THIRD_PARTY_APPS = [
     "corsheaders",
+    "ninja_extra",
 ]
 
 # Project apps
@@ -216,25 +217,22 @@ EMAIL_USE_SSL = False
 
 
 # CSRF settings
-CSRF_COOKIE_SECURE = True
-
-CSRF_COOKIE_SAMESITE = "None"
-
-CSRF_COOKIE_HTTPONLY = False
-
-CSRF_COOKIE_DOMAIN = ".ondigitalocean.app"
+# CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_SAMESITE = "None"
+# CSRF_COOKIE_HTTPONLY = False
+# CSRF_COOKIE_DOMAIN = ".ondigitalocean.app"
 # CSRF_COOKIE_DOMAIN = "example-backend-8lntg.ondigitalocean.app"
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
-    "https://example-frontend-gbldq.ondigitalocean.app",
-    "https://example-backend-8lntg.ondigitalocean.app",
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://localhost:5173",
+#     "https://example-frontend-gbldq.ondigitalocean.app",
+#     "https://example-backend-8lntg.ondigitalocean.app",
+# ]
 
 
 # CORS settings
 # https://pypi.org/project/django-cors-headers/
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
@@ -242,17 +240,16 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_HEADERS = [
-    "X-CSRFToken",
+    # "X-CSRFToken",
     "Content-Type",
+    "Authorization",
 ]
 
 
 # Session cookie settings
-SESSION_COOKIE_SAMESITE = "None"
-
-SESSION_COOKIE_SECURE = True
-
-SESSION_COOKIE_DOMAIN = ".ondigitalocean.app"
+# SESSION_COOKIE_SAMESITE = "None"
+# SESSION_COOKIE_SECURE = True
+# SESSION_COOKIE_DOMAIN = ".ondigitalocean.app"
 # SESSION_COOKIE_DOMAIN = "example-backend-8lntg.ondigitalocean.app"
 
 

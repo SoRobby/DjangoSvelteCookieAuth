@@ -1,10 +1,10 @@
 import { redirect } from '@sveltejs/kit';
-import { AUTH_ENDPOINTS } from '$lib/server/endpoints/auth';
+// import { AUTH_ENDPOINTS } from '$lib/api/server/endpoints/auth';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params, locals, cookies }) {
 	// If user is already logged in, redirect to home page
-	if (locals.user?.sessionid) {
+	if (locals.user) {
 		redirect(302, '/');
 	}
 

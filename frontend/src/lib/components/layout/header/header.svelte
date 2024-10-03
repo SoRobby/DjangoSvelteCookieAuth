@@ -24,7 +24,7 @@
 				</div>
 			</div>
 			<div class="flex items-center gap-6">
-				{#if userData.sessionid}
+				{#if userData?.sessionid}
 					<div>
 						<DropdownMenu.Root>
 							<DropdownMenu.Trigger asChild let:builder>

@@ -12,7 +12,7 @@
 		<div class="space-y-2">
 			<h2 class="text-lg font-medium">Auth</h2>
 			<div class="grid-col grid text-sm">
-				{#if !data.user.sessionid}
+				{#if !data?.user}
 				<a
 					href="login/"
 					class="w-min text-nowrap font-medium text-gray-700 hover:text-blue-600 hover:underline"
