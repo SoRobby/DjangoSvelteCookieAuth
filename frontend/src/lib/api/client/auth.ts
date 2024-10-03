@@ -60,7 +60,7 @@ class AuthApi {
             if (refresh_token && refresh_token?.length > 0) {
                 // console.log("Setting up refresh interval")
                 this.refreshInterval = setInterval(() => this.refreshToken(refresh_token),
-                    1000 * 60 * 5
+                    1000 * 60 * 3
                 )
             }
         }
