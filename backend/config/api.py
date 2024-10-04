@@ -10,8 +10,9 @@ from apps.core.api.router import core_router
 from django.http import HttpResponse
 from ninja import NinjaAPI
 from ninja.errors import ValidationError
-from ninja_extra import NinjaExtraAPI
-from ninja_jwt.controller import NinjaJWTDefaultController
+from ninja_extra import NinjaExtraAPI, api_controller
+from ninja_extra.controllers import ControllerBase
+from ninja_jwt.controller import NinjaJWTDefaultController, TokenObtainPairController
 
 # Define Django Ninja API (old, used csrf)
 # api = NinjaAPI(version="1.0.0", csrf=True, title="DjangoNextAPI")
@@ -19,6 +20,14 @@ from ninja_jwt.controller import NinjaJWTDefaultController
 # Setup for Django Ninja w/ JWT
 api = NinjaExtraAPI(version="1.0.0", csrf=False, title="DjangoNextAPI")
 api.register_controllers(NinjaJWTDefaultController)
+
+
+# @api_controller('auth/token', tags=['Auth'])
+# class MyCustomController(TokenObtainPairController):
+#     """obtain_token and refresh_token only"""
+
+
+# api.register_controllers(MyCustomController)
 
 
 # Custom error handler for Ninja API

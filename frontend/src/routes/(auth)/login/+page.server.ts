@@ -18,21 +18,25 @@ export const actions = {
 		const { email, password } = Object.fromEntries(formData.entries());
 
 		// Get CSRF token and ensure it's a string
-		const csrfToken = cookies.get('csrftoken') || '';
+		// const csrfToken = cookies.get('csrftoken') || '';
+
+		let endpoint = 'http://localhost:8000/api/token/pair'
 
 		// Attempt to login
-		const response = await fetch(AUTH_ENDPOINTS.login.url, {
-			method: AUTH_ENDPOINTS.login.methods.POST,
+		const response = await fetch(endpoint, {
+			method: 'POST',
 			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
-				'X-CSRFToken': csrfToken
+				// 'X-CSRFToken': csrfToken
 			},
 			body: JSON.stringify({
 				email: email,
 				password: password
 			})
 		});
+
+		console.log(response)
 
 		// Check for errors
 		if (!response.ok) {

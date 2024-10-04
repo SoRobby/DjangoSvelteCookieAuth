@@ -49,5 +49,11 @@ export const AUTH_ENDPOINTS = {
 		methods: {
 			POST: 'POST'
 		}
-	}
+	},
+	JWTTokenPair: {
+		url: `${API_BASE_URL}/token/pair`,
+		methods: {
+			POST: 'POST'
+		}
+	},
 };
