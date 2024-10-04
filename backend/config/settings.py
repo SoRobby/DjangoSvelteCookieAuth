@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from pathlib import Path
 
 import environ
@@ -52,6 +53,8 @@ DJANGO_APPS = [
 # Third party apps
 THIRD_PARTY_APPS = [
     "corsheaders",
+    "ninja_extra",
+    "ninja_jwt",
 ]
 
 # Project apps
@@ -216,44 +219,48 @@ EMAIL_USE_SSL = False
 
 
 # CSRF settings
-CSRF_COOKIE_SECURE = True
-
-CSRF_COOKIE_SAMESITE = "None"
-
-CSRF_COOKIE_HTTPONLY = False
-
-CSRF_COOKIE_DOMAIN = ".ondigitalocean.app"
-# CSRF_COOKIE_DOMAIN = "example-backend-8lntg.ondigitalocean.app"
-
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
-    "https://example-frontend-gbldq.ondigitalocean.app",
-    "https://example-backend-8lntg.ondigitalocean.app",
-]
+# CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_SAMESITE = "None"
+# CSRF_COOKIE_HTTPONLY = False
+# CSRF_COOKIE_DOMAIN = ".ondigitalocean.app"
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://localhost:5173",
+#     "http://localhost:8000",
+#     "http://127.0.0.1:8000",
+#     "https://example-frontend-gbldq.ondigitalocean.app",
+#     "https://example-backend-8lntg.ondigitalocean.app",
+# ]
 
 
 # CORS settings
 # https://pypi.org/project/django-cors-headers/
 CORS_ALLOW_CREDENTIALS = True
-
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://example-frontend-gbldq.ondigitalocean.app"
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "https://example-frontend-gbldq.ondigitalocean.app",
 ]
-
 CORS_ALLOW_HEADERS = [
-    "X-CSRFToken",
     "Content-Type",
+    "Authorization",
 ]
-
 
 # Session cookie settings
-SESSION_COOKIE_SAMESITE = "None"
+# SESSION_COOKIE_SAMESITE = "None"
+# SESSION_COOKIE_SECURE = True
 
-SESSION_COOKIE_SECURE = True
 
-SESSION_COOKIE_DOMAIN = ".ondigitalocean.app"
-# SESSION_COOKIE_DOMAIN = "example-backend-8lntg.ondigitalocean.app"
+# JWT settings
+NINJA_JWT = {
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": True,
+}
 
 
 # Logging configuration

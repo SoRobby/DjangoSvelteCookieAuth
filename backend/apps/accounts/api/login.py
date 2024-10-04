@@ -4,6 +4,7 @@ from apps.accounts.api.router import accounts_router
 from apps.accounts.schemas import LoginRequestSchema, LoginResponseSchema
 from apps.core.schemas import ErrorSchema
 from django.contrib.auth import authenticate, login
+from ninja_jwt.authentication import JWTAuth
 
 
 # Login
