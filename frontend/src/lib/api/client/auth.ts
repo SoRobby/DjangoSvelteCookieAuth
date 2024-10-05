@@ -23,10 +23,10 @@ class AuthApi {
 	// Login method
 	async login(email: string, password: string, rememberMe: boolean) {
 		console.log('[AuthApi] login()');
-		const loginEndpoint = '/token/pair';
+		const endpoint = '/token/pair';
 		try {
 			const res = await this.client({
-				url: loginEndpoint,
+				url: endpoint,
 				method: 'POST',
 				data: {
 					email,
@@ -36,6 +36,17 @@ class AuthApi {
 
 			if (res.data.email) {
 				console.log('[AuthApi] login() response:');
+
+				console.log(res);
+
+				// Setting the cookie
+				document.cookie = cookie.serialize("accessToken", res.data.access, {
+					path: '/',
+					maxAge: 60 * 60 * 24 * 7,
+					sameSite: 'lax'
+				});
+
+
 				return {
 					success: true,
 					message: null
@@ -49,6 +60,18 @@ class AuthApi {
 				message: 'Invalid email and/or password'
 			};
 		}
+	}
+
+	async refreshToken(refresh_token: string) {
+		const endpoint = '/token/refresh';
+		const data = { refresh: refresh_token };
+	}
+
+	// Refresh token
+	initRefreshTokenCycle() {}
+
+	clearRefreshInterval() {
+		clearInterval(this.refreshInterval);
 	}
 
 	logout() {

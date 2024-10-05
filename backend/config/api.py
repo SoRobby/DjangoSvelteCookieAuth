@@ -5,6 +5,7 @@ Project API route app configuration.
 import json
 import logging
 
+from apps.accounts.api.register import RegisterController
 from apps.accounts.api.router import accounts_router
 from apps.core.api.router import core_router
 from django.http import HttpResponse
@@ -19,7 +20,16 @@ from ninja_jwt.controller import NinjaJWTDefaultController, TokenObtainPairContr
 
 # Setup for Django Ninja w/ JWT
 api = NinjaExtraAPI(version="1.0.0", csrf=False, title="DjangoNextAPI")
-api.register_controllers(NinjaJWTDefaultController)
+
+api.register_controllers(NinjaJWTDefaultController, RegisterController)
+
+
+# api.register_controllers(
+#     SpeciesController,
+#     CharacterController,
+#     UserController,
+# )
+
 
 
 # @api_controller('auth/token', tags=['Auth'])

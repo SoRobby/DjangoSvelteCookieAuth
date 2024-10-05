@@ -10,6 +10,8 @@ from apps.core.schemas import BaseResponseSchema, Error400Schema, ErrorSchema
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from ninja_extra import api_controller, route
+from ninja_jwt.authentication import JWTAuth
 from pydantic import EmailStr
 
 
@@ -108,7 +110,10 @@ def validate_username_view(request, username: str):
         return 200, BaseResponseSchema(success=True, message="Username is available")
 
 
-@accounts_router.post("/auth/register", response={200: RegisterResponseSchema, 400: ErrorSchema, 403: ErrorSchema, 422: ErrorSchema, 500: ErrorSchema})
+@accounts_router.post(
+    "/auth/register",
+    response={200: RegisterResponseSchema, 400: ErrorSchema, 403: ErrorSchema, 422: ErrorSchema, 500: ErrorSchema},
+)
 def register_view(request, data: RegisterRequestSchema):
     logging.debug("[ACCOUNTS.API.REGISTER_VIEW] Called")
 
@@ -198,4 +203,47 @@ def register_view(request, data: RegisterRequestSchema):
         return 500, ErrorSchema(
             success=False,
             message="Unexpected error occurred while creating the account",
+        )
+
+
+## NEW REGISTER VIEW
+from ninja_jwt.authentication import JWTAuth
+from ninja_jwt.tokens import RefreshToken
+
+
+@api_controller("/v1/auth/register2", tags=["Auth"], auth=JWTAuth())
+class RegisterController:
+    @route.post("", response={200: BaseResponseSchema}, auth=None)
+    def create_user(self, data: RegisterRequestSchema):
+        logging.debug("[ACCOUNTS.API.REGISTER_VIEW] Called")
+        logging.debug(f"User Schema: {data}")
+
+        # Return user token schema
+        account = Account.objects.create(
+            username=data.username,
+            email=data.email,
+            first_name=data.first_name,
+            last_name=data.last_name,
+        )
+
+        # Set the password and hash it using set_password
+        account.set_password(data.password1)
+        account.save()
+
+        # Authenticate the user credentials
+        user = authenticate(request=None, email=data.email, password=data.password1)
+        logging.debug(f"user {user}")
+
+        refresh = RefreshToken.for_user(user)  # type: ignore
+
+        return 200, BaseResponseSchema(
+            success=True,
+            message="Request was successful",
+            username=user.username,  # type: ignore
+            email=user.email,  # type: ignore
+            is_superuser=user.is_superuser,  # type: ignore
+            first_name=user.first_name,  # type: ignore
+            last_name=user.last_name,  # type: ignore
+            refresh=str(refresh),  # type: ignore
+            access=str(refresh.access_token),  # type: ignore
         )
