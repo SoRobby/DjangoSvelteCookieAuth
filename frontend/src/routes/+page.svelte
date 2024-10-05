@@ -3,6 +3,7 @@
 	import { Header } from '$lib/components/layout/header';
 	import { Footer } from '$lib/components/layout/footer';
 	import { Button } from '$lib/components/ui/button';
+	import authApi from '$lib/api/client/auth';
 	let { data } = $props();
 </script>
 
@@ -13,23 +14,26 @@
 			<h2 class="text-lg font-medium">Auth</h2>
 			<div class="grid-col grid text-sm">
 				{#if !data.user.sessionid}
-				<a
-					href="login/"
-					class="w-min text-nowrap font-medium text-gray-700 hover:text-blue-600 hover:underline"
-					>Login</a
-				>
-				<a
-					href="register/"
-					class="w-min text-nowrap font-medium text-gray-700 hover:text-blue-600 hover:underline"
-					>Register</a
-				>
+					<a
+						href="login/"
+						class="w-min text-nowrap font-medium text-gray-700 hover:text-blue-600 hover:underline"
+						>Login</a
+					>
+					<a
+						href="register/"
+						class="w-min text-nowrap font-medium text-gray-700 hover:text-blue-600 hover:underline"
+						>Register</a
+					>
 				{:else}
-				<p class="pb-2">You are logged in as <strong>{data.user.username}</strong></p>
-				<form action="/logout" method="POST">
-					<Button variant="outline" type="submit">Logout</Button>
-				</form>
+					<p class="pb-2">You are logged in as <strong>{data.user.username}</strong></p>
+					<form action="/logout" method="POST">
+						<Button variant="outline" type="submit">Logout</Button>
+					</form>
 				{/if}
-				
+
+				<div>
+					<Button variant="outline" onclick={authApi.logout}>Logout</Button>
+				</div>
 			</div>
 		</div>
 
