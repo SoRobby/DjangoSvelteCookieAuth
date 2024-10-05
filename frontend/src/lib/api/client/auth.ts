@@ -24,7 +24,6 @@ class AuthApi {
 	async login(email: string, password: string, rememberMe: boolean) {
 		console.log('[AuthApi] login()');
 		const loginEndpoint = '/token/pair';
-
 		try {
 			const res = await this.client({
 				url: loginEndpoint,
@@ -35,10 +34,20 @@ class AuthApi {
 				}
 			});
 
-			console.log(res);
+			if (res.data.email) {
+				console.log('[AuthApi] login() response:');
+				return {
+					success: true,
+					message: null
+				};
+			}
 		} catch (error) {
+			console.log('[AuthApi] login() error:');
 			console.error(error);
-			// TODO handle error
+			return {
+				success: false,
+				message: 'Invalid email and/or password'
+			};
 		}
 	}
 
