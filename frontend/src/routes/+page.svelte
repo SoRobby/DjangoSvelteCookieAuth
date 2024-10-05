@@ -4,6 +4,7 @@
 	import { Footer } from '$lib/components/layout/footer';
 	import { Button } from '$lib/components/ui/button';
 	import authApi from '$lib/api/client/auth';
+	import { PUBLIC_ROOT_URL, PUBLIC_API_ROOT_URL } from '$env/static/public';
 	let { data } = $props();
 </script>
 
@@ -36,7 +37,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="space-y-2">
 			<h2 class="text-lg font-medium">Dev</h2>
 			<div class="grid-col grid text-sm">
@@ -57,6 +57,10 @@
 				>
 			</div>
 		</div>
+	</div>
+	<div>
+		<div class="text-sm text-muted-foreground">PUBLIC_API_ROOT_URL: {PUBLIC_API_ROOT_URL}</div>
+		<div class="text-sm text-muted-foreground">PUBLIC_ROOT_URL: {PUBLIC_ROOT_URL}</div>
 	</div>
 </Main>
 <Footer />

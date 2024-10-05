@@ -16,12 +16,9 @@ export async function handle({ event, resolve }) {
 	console.log('Cookies end')
 
 	if (event.cookies.get('accessToken')) {
-		
-	}
+
+	} 
 	
-
-
-
 	event.locals.user = {};
 
 	return await resolve(event);

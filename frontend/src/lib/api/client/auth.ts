@@ -111,7 +111,7 @@ class AuthApi {
 			const refreshToken = localStorage.getItem(tokenStoreSchema.refreshToken);
 
 			if (refreshToken && refreshToken.length > 0) {
-				console.log('Setting up refresh interval 3');
+				console.log('Getting new access token');
 				this.refreshInterval = setInterval(() => this.refreshToken(refreshToken), 1000 * 60);
 			}
 		}

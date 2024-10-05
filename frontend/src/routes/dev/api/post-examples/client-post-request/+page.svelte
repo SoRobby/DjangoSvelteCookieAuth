@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { ComponentPageTitle } from '$lib/components/dev/component-page-title';
 	import { ComponentBlock } from '$lib/components/dev/component-block';
+	import { PUBLIC_ROOT_URL, PUBLIC_API_ROOT_URL } from '$env/static/public';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -18,12 +19,11 @@
 		event.preventDefault();
 
 		// Get CSRF token and ensure it's a string
-		const csrfToken = getCookie('csrftoken') || '';
 		const accessToken = getCookie('accessToken') || '';
 
-		console.log(csrfToken);
+		const endpoint = `${PUBLIC_API_ROOT_URL}/api/v1/hello-world-post-simple`;
 
-		const response = await fetch('http://localhost:8000/api/v1/hello-world-post-simple', {
+		const response = await fetch(endpoint, {
 			method: 'POST',
 			credentials: 'include',
 			headers: { 
