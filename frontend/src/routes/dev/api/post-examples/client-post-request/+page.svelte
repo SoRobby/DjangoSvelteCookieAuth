@@ -8,6 +8,8 @@
 
 	let { data } = $props();
 
+	console.log(data);
+
 	let content = $state('');
 	let responseData = $state(null);
 	let form: HTMLFormElement;
@@ -17,15 +19,16 @@
 
 		// Get CSRF token and ensure it's a string
 		const csrfToken = getCookie('csrftoken') || '';
+		const accessToken = getCookie('accessToken') || '';
 
 		console.log(csrfToken);
 
-		const response = await fetch('http://localhost:8000/api/v1/hello-world-post', {
+		const response = await fetch('http://localhost:8000/api/v1/hello-world-post-simple', {
 			method: 'POST',
 			credentials: 'include',
 			headers: { 
 				'Content-Type': 'application/json',
-				'X-CSRFToken': csrfToken,
+				"Authorization": `Bearer ${accessToken}`,
 			},
 			body: JSON.stringify({ content: content })
 		});

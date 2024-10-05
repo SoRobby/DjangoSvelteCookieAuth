@@ -10,21 +10,17 @@ export async function handle({ event, resolve }) {
 	// Get cookies from the request
 	// const cookies = event.cookies;
 
-	// // If CSRF token does not exist create a new one:
-	// if (!cookies.get('csrftoken')) {
-	// 	and
+	// Get cookies
+	console.log('Cookies start')
+	console.log(event.cookies.get('accessToken'));
+	console.log('Cookies end')
 
-	// 	const csrfResponse = await fetch(AUTH_ENDPOINTS.getCSRFToken.url, {
-	// 		method: AUTH_ENDPOINTS.getCSRFToken.methods.POST,
-	// 		credentials: 'include'
-	// 	});
-
-	// 	console.log(csrfResponse)
-	// 	const csrfCookieConfig = setupCookie(csrfResponse, 'csrftoken');
-	// 	event.cookies.set('csrftoken', csrfCookieConfig.value, csrfCookieConfig.attributes);
-	// 	console.log('[HOOKS.SERVER.TS] CSRF token successfully created and set')
-	// }
+	if (event.cookies.get('accessToken')) {
+		
+	}
 	
+
+
 
 	event.locals.user = {};
 

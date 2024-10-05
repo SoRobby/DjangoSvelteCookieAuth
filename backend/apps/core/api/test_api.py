@@ -3,6 +3,7 @@ import logging
 
 from apps.core.schemas import BaseResponseSchema, Error400Schema, ErrorSchema
 from ninja import Schema
+from ninja_jwt.authentication import JWTAuth
 
 from .router import core_router
 
@@ -21,6 +22,21 @@ def hello_get(request):
         chicken="Chicken was crossing the road...",  # type: ignore
         turkey={"turkey": "Turkey was crossing the road..."},  # type: ignore
     )
+
+
+@core_router.post("/hello-world-post-simple", auth=JWTAuth(), response={200: BaseResponseSchema, 403: ErrorSchema})
+def hello_post_simple(request, data: Data):
+        logging.debug("[CORE.API.HELLO_POST_SIMPLE] 200 success")
+        country_data = {
+            "name": "United States",
+            "code": "US",
+        }
+
+        return 200, BaseResponseSchema(
+            success=True, message="Request was successful", country=country_data  # type: ignore
+        )
+
+
 
 
 @core_router.post("/hello-world-post", response={200: BaseResponseSchema, 204: BaseResponseSchema, 403: ErrorSchema})
