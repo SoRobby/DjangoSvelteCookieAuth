@@ -41,7 +41,10 @@ export const actions = {
 		// Check for errors
 		if (!response.ok) {
 			const data = await response.json();
-			return data;
+			return {
+				status: response.status,
+				message: data.detail || 'An error occurred'
+			};
 		}
 
 		// If successful response, and after cookies are set
