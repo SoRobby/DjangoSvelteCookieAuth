@@ -21,7 +21,7 @@
 								{:else if $page.status === 500}
 									Our systems are experiencing a solar flare disruption.
 								{:else}
-									{$page.error.message}
+									{$page?.error?.message}
 								{/if}
 							</div>
 						</div>

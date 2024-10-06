@@ -6,13 +6,12 @@
 	import { onMount, setContext } from 'svelte';
 	import userState from '$lib/utils/auth/userState.svelte';
 	import DevBar from '$lib/components/dev/devbar/devbar.svelte';
-	import authApi from "$lib/api/client/auth";
+	import authApi from '$lib/api/client/auth';
 
 	let { children, data } = $props();
 
 	onMount(() => {
 		authApi.initRefreshTokenCycle();
-
 		return () => {
 			authApi.clearRefreshInterval();
 		};
