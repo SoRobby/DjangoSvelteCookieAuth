@@ -15,7 +15,7 @@
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/adapter-node": "^5.2.0",
 		"@sveltejs/kit": "^2.0.0",
-		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"@sveltejs/vite-plugin-svelte": "^4.0.0-next.6",
 		"@types/eslint": "^9.6.0",
 		"autoprefixer": "^10.4.19",
 		"eslint": "^9.0.0",
@@ -37,6 +37,7 @@
 	"dependencies": {
 		"@internationalized/date": "^3.5.5",
 		"@pqina/svelte-pintura": "^9.1.0",
+		"axios": "^1.7.7",
 		"bits-ui": "^0.21.12",
 		"clsx": "^2.1.1",
 		"cmdk-sv": "^0.0.18",
