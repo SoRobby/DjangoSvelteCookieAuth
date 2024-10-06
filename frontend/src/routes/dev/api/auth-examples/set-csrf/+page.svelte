@@ -8,25 +8,7 @@
 	import { AUTH_CLIENT_ENDPOINTS } from '$lib/client/endpoints/csrf';
 
 	let formData = $state({});
-	let customCsrfToken = '';
-
-	// async function getCSRFToken() {
-	// 	const response = await fetch(AUTH_CLIENT_ENDPOINTS.getCSRFToken.url, {
-	// 		method: AUTH_CLIENT_ENDPOINTS.getCSRFToken.methods.POST,
-	// 		credentials: 'include'
-	// 	});
-
-	// 	if (!response.ok) {
-	// 		console.error('Failed to fetch CSRF token');
-	// 	}
-
-	// 	console.log('CSRF token set successfully');
-	// 	formData = {
-	// 		success: true,
-	// 		status: response.status,
-	// 		data: 'Successfully set CSRF token'
-	// 	};
-	// }
+	let customCsrfToken = $state('');
 
 	async function validateCSRFToken() {
 		let csrfToken = getCookie('csrftoken') || '';
